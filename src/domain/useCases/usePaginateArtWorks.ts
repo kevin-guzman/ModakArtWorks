@@ -14,14 +14,23 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
   const [pagination, setPagination] = useState<Pagination>(initialPagination);
   const [reloadPagination, setReloadPagination] = useState(false);
   const [error, setError] = useState<ApplicationError>({ hasError: false, message: "" });
+  const [unmountedComponent, setUnmountedComponent] = useState(false);
 
   const paginationQuery = useQuery(["/pagination"], () => artWorksRepository.getPaginated(pagination), {});
-  const { isFetched, isLoading } = paginationQuery;
+  const { isFetched, isLoading,  } = paginationQuery;
+
   const onScrollEnds = () => {
     setReloadPagination(!reloadPagination);
   }
+  const onUnmountComponent = ()=>{
+    setUnmountedComponent(true);
+  }
 
   useEffect(() => {
+    if(unmountedComponent){
+      return;
+    }
+
     if (paginationQuery.isLoading && isFetched) {
       return;
     }
@@ -39,12 +48,19 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
         setError({ hasError: true, message: "No new arts" })
       })
       .catch(error => setError({ hasError: true, message: error }))
-  }, [reloadPagination])
+  }, [reloadPagination, unmountedComponent])
+
+  useEffect(()=>{
+    return ()=>{
+      onUnmountComponent()
+    }
+  }, [])
 
   return {
     artWorks,
     onScrollEnds,
     isLoading,
-    error
+    error,
+    onUnmountComponent
   }
 };
