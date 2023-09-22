@@ -4,7 +4,7 @@ import * as Animatable from 'react-native-animatable';
 
 import { ArtWork } from "../../../../domain/entities/artWork";
 import { styles } from "./styles"
-import { useState } from "react";
+import { memo, useState } from "react";
 
 type ArtWorkCardProps = {
   addToFavoritesHandler: (element: ArtWork) => Promise<void>;
@@ -13,7 +13,7 @@ type ArtWorkCardProps = {
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 
-export const ArtWorkCard = ({ artWork, addToFavoritesHandler }: ArtWorkCardProps) => {
+export const ArtWorkCard = memo(({ artWork, addToFavoritesHandler }: ArtWorkCardProps) => {
   const [filled, setFilled] = useState(false);
 
   const toggleHeart = () => {
@@ -69,4 +69,6 @@ export const ArtWorkCard = ({ artWork, addToFavoritesHandler }: ArtWorkCardProps
       </View>
     </View>
   )
-}
+}, (prevProps, nextProps)=>{
+  return prevProps.artWork.id == nextProps.artWork.id;
+})
