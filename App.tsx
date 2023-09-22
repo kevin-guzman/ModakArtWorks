@@ -17,7 +17,7 @@ function App(): JSX.Element {
   const queryClient = new QueryClient();
 
   return (
-    <Provider container={container}>
+    <Provider container={container} key={container.id} >
       <QueryClientProvider client={queryClient} >
         <ArtWorks />
       </QueryClientProvider>
