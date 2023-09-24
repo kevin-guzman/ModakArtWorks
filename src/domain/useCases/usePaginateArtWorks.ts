@@ -5,7 +5,12 @@ import { useQuery } from "react-query"
 import { ArtWorksRepository } from "../repositories/artWorksRepository";
 import { Pagination } from "../shared/types/pagination";
 import { ArtWork } from "../entities/artWork";
-import { ApplicationError } from "../entities/applicationError";
+import { useApplicationError } from "../shared/hooks/useApplicationError";
+
+export const constants = {
+  FETCHING_ERROR: "Error has occured fetching art works",
+  QUERY_ROUTE: "/pagination"
+}
 
 export const usePaginateArtWorks = (initialPagination: Pagination) => {
   const artWorksRepository = useInjection<ArtWorksRepository>("ArtWorksRepository");
@@ -13,15 +18,24 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
   const [artWorks, setArtWorks] = useState<ArtWork[]>([]);
   const [pagination, setPagination] = useState<Pagination>(initialPagination);
   const [reloadPagination, setReloadPagination] = useState(false);
-  const [error, setError] = useState<ApplicationError>({ hasError: false, message: "" });
+  const { error, setNoError, setMessageFromString, setMessageFromError } = useApplicationError();
+  const [unmountedComponent, setUnmountedComponent] = useState(false);
 
-  const paginationQuery = useQuery(["/pagination"], () => artWorksRepository.getPaginated(pagination), {});
-  const { isFetched, isLoading } = paginationQuery;
+  const paginationQuery = useQuery([constants.QUERY_ROUTE], () => artWorksRepository.getPaginated(pagination), {});
+  const { isFetched, isLoading, } = paginationQuery;
+
   const onScrollEnds = () => {
     setReloadPagination(!reloadPagination);
   }
+  const onUnmountComponent = () => {
+    setUnmountedComponent(true);
+  }
 
   useEffect(() => {
+    if (unmountedComponent) {
+      return;
+    }
+
     if (paginationQuery.isLoading && isFetched) {
       return;
     }
@@ -30,21 +44,26 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
       .then(({ data, isSuccess }) => {
         if (isSuccess) {
           setArtWorks((prevState) => [...new Set(prevState.concat(data as ArtWork[]))]);
-          setPagination((prevState) => ({ ...prevState, page: prevState.page + 1 }))
-          setError({ hasError: false, message: "" })
+          setPagination((prevState) => ({ ...prevState, page: prevState.page + 1 }));
+          setNoError();
 
           return
         }
 
-        setError({ hasError: true, message: "No new arts" })
+        setMessageFromString(constants.FETCHING_ERROR);
       })
-      .catch(error => setError({ hasError: true, message: error }))
-  }, [reloadPagination])
+  }, [reloadPagination, unmountedComponent])
+
+  useEffect(() => {
+    return () => {
+      onUnmountComponent()
+    }
+  }, [])
 
   return {
     artWorks,
     onScrollEnds,
     isLoading,
-    error
+    error,
   }
 };

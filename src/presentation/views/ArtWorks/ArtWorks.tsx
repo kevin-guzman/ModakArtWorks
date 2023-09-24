@@ -27,7 +27,7 @@ export function ArtWorks({ }) {
   return (
     <SafeAreaView style={backgroundStyle}>
       <ImageBackground style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} source={require('../../../../bg.jpeg')} >
-        <View style={{backgroundColor: 'rgba(0, 0, 0, 0.6)'}} >
+        <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }} >
           <Button title="Switch" onPress={() => setRe(!re)} />
           {!re ?
             <ArtWorksList
@@ -71,7 +71,7 @@ const ArtWorksList = ({ artWorks, onElementClick, onScrollEnds, isLoadingContent
     return (
       <View>
         {error.hasError ?
-          <Text>Error has occured fetching art works</Text>
+          <Text style={{ color: "white", textAlign: "center", fontSize: 20, marginVertical: 20 }} >{error.message}</Text>
           : <ActivityIndicator style={{
             flex: 1,
             alignItems: 'center',
