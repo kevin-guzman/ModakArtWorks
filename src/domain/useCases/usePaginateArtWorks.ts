@@ -7,6 +7,11 @@ import { Pagination } from "../shared/types/pagination";
 import { ArtWork } from "../entities/artWork";
 import { ApplicationError } from "../entities/applicationError";
 
+export const constants = {
+  FETCHING_ERROR: "Error has occured fetching art works",
+  QUERY_ROUTE: "/pagination"
+}
+
 export const usePaginateArtWorks = (initialPagination: Pagination) => {
   const artWorksRepository = useInjection<ArtWorksRepository>("ArtWorksRepository");
 
@@ -16,8 +21,8 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
   const [error, setError] = useState<ApplicationError>({ hasError: false, message: "" });
   const [unmountedComponent, setUnmountedComponent] = useState(false);
 
-  const paginationQuery = useQuery(["/pagination"], () => artWorksRepository.getPaginated(pagination), {});
-  const { isFetched, isLoading } = paginationQuery;
+  const paginationQuery = useQuery([constants.QUERY_ROUTE], () => artWorksRepository.getPaginated(pagination), {});
+  const { isFetched, isLoading, } = paginationQuery;
 
   const onScrollEnds = () => {
     setReloadPagination(!reloadPagination);
@@ -45,9 +50,8 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
           return
         }
 
-        setError({ hasError: true, message: "No new arts" })
+        setError({ hasError: true, message: constants.FETCHING_ERROR })
       })
-      .catch(error => setError({ hasError: true, message: error }))
   }, [reloadPagination, unmountedComponent])
 
   useEffect(()=>{
