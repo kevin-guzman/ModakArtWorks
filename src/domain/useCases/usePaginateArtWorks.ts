@@ -17,7 +17,7 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
   const [unmountedComponent, setUnmountedComponent] = useState(false);
 
   const paginationQuery = useQuery(["/pagination"], () => artWorksRepository.getPaginated(pagination), {});
-  const { isFetched, isLoading,  } = paginationQuery;
+  const { isFetched, isLoading } = paginationQuery;
 
   const onScrollEnds = () => {
     setReloadPagination(!reloadPagination);
@@ -61,6 +61,5 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
     onScrollEnds,
     isLoading,
     error,
-    onUnmountComponent
   }
 };
