@@ -17,19 +17,18 @@ export const useFavorites = () => {
 
   const onFavoriteChange = useCallback(async (element: ArtWork) => {
     const isAlreadyInFavorites = favorites.findIndex(favorite => favorite.id == element.id) !== constants.UNEXISTING_FAVORITE_INDEX
-    
+
     if (isAlreadyInFavorites) {
       const updatedFavorites = await favoritesRepository.deleteById(element.id)
       setFavorites(updatedFavorites)
       return
     }
 
-    const savedFavorite = await favoritesRepository.save([...new Set(favorites.concat(element))])
+    const savedFavorite = await favoritesRepository.save([...new Set(favorites.concat({ ...element, is_favorite: true }))])
     setFavorites(savedFavorite)
 
   }, [favorites])
-
-  useEffect(() => {
+  const getFavorites = useCallback(() => {
     favoritesRepository.getAll()
       .then((favorites) => {
         setFavorites(favorites);
@@ -39,10 +38,18 @@ export const useFavorites = () => {
         setMessageFromError(error);
       })
   }, [])
+  const reload = () => {
+    getFavorites();
+  }
+
+  useEffect(() => {
+    getFavorites()
+  }, [])
 
   return {
     onFavoriteChange,
     favorites,
-    error
+    error,
+    reload
   }
 }

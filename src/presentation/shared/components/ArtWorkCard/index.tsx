@@ -1,20 +1,14 @@
+import { memo, useState } from "react";
+import * as Animatable from 'react-native-animatable';
 import { Dimensions, Image, Text, TouchableOpacity, View, } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import * as Animatable from 'react-native-animatable';
 
-import { ArtWork } from "../../../../domain/entities/artWork";
+import {Props} from "./props"
 import { styles } from "./styles"
-import { memo, useState } from "react";
 
-type ArtWorkCardProps = {
-  addToFavoritesHandler: (element: ArtWork) => Promise<void>;
-  artWork: ArtWork;
-}
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
-
-export const ArtWorkCard = memo(({ artWork, addToFavoritesHandler }: ArtWorkCardProps) => {
-  
+export const ArtWorkCard = memo(({ artWork, addToFavoritesHandler }: Props) => {
   const toggleHeart = () => {
     setFilled(!filled);
     addToFavoritesHandler(artWork);
@@ -71,7 +65,7 @@ export const ArtWorkCard = memo(({ artWork, addToFavoritesHandler }: ArtWorkCard
   )
 }, (prevProps, nextProps)=>{
   const areEqualIds = prevProps.artWork.id == nextProps.artWork.id
-  const areEqualFavoriteState = prevProps.artWork.is_favorite !== nextProps.artWork.is_favorite
+  const areEqualFavoriteState = prevProps.artWork.is_favorite === nextProps.artWork.is_favorite
   const shouldReload = areEqualIds && areEqualFavoriteState;
   return shouldReload;
 })

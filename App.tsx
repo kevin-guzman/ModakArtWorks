@@ -6,12 +6,13 @@
  */
 
 import "reflect-metadata";
+import 'react-native-gesture-handler';
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'inversify-react';
 
-import { ArtWorks } from './src/presentation/views/ArtWorks/ArtWorks';
 import { container } from './src/infrastructure/dependencyInjection';
+import { AppNavigator } from "./src/presentation/navigation/AppNavigator";
 
 function App(): JSX.Element {
   const queryClient = new QueryClient();
@@ -19,7 +20,7 @@ function App(): JSX.Element {
   return (
     <Provider container={container} key={container.id} >
       <QueryClientProvider client={queryClient} >
-        <ArtWorks />
+        <AppNavigator/>
       </QueryClientProvider>
     </Provider>
   );

@@ -26,6 +26,10 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
   const onScrollEnds = () => {
     setReloadPagination(!reloadPagination);
   }
+  const reload = () => {
+    setArtWorks([]);
+    setReloadPagination(!reloadPagination);
+  }
 
   useEffect(() => {
     if (paginationQuery.isLoading && isFetched) {
@@ -51,5 +55,6 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
     onScrollEnds,
     isLoading,
     error,
+    reload,
   }
 };
