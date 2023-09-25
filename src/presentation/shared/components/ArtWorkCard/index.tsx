@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import * as Animatable from 'react-native-animatable';
 import { Dimensions, Image, Text, TouchableOpacity, View, } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -9,23 +9,26 @@ import { styles } from "./styles"
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 export const ArtWorkCard = memo(({ artWork, addToFavoritesHandler }: Props) => {
+  const { image_id, title, thumbnail, description, inscriptions, is_favorite } = artWork;
+  const isEmptyArtWork = !thumbnail || title === "Untitled" || !description || !inscriptions
+  if (isEmptyArtWork) return null;
+  
+  const [filled, setFilled] = useState(is_favorite);
   const toggleHeart = () => {
     setFilled(!filled);
     addToFavoritesHandler(artWork);
   };
+
+  useEffect(()=>{
+    setFilled(is_favorite);
+  }, [is_favorite])
   
-  const { image_id, title, thumbnail, description, inscriptions, is_favorite } = artWork;
-  const [filled, setFilled] = useState(is_favorite);
-  const isEmptyArtWork = !thumbnail || title === "Untitled" || !description || !inscriptions
-  if (isEmptyArtWork) return null;
   const thumbnailWidth = thumbnail?.width || 100
   const thumbnailHeight = thumbnail?.height || 100
-
   const aspectRatio = thumbnailWidth / thumbnailHeight;
   const screeenPercentage = 80
   let imageWidth = (screeenPercentage / 100) * screenWidth;
   let imagenHeight = (screeenPercentage / 100) * screenHeight;
-
   if (imageWidth / imagenHeight > aspectRatio) {
     imageWidth = imagenHeight * aspectRatio;
   } else {
@@ -64,7 +67,7 @@ export const ArtWorkCard = memo(({ artWork, addToFavoritesHandler }: Props) => {
     </View>
   )
 }, (prevProps, nextProps)=>{
-  const areEqualIds = prevProps.artWork.id == nextProps.artWork.id
+  const areEqualIds = prevProps.artWork.id === nextProps.artWork.id
   const areEqualFavoriteState = prevProps.artWork.is_favorite === nextProps.artWork.is_favorite
   const shouldReload = areEqualIds && areEqualFavoriteState;
   return shouldReload;

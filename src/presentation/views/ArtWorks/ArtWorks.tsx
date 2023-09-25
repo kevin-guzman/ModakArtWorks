@@ -1,23 +1,23 @@
 import { useEffect } from "react";
+import { useIsFocused } from "@react-navigation/native";
 
 import { useFavoritesAndArtWorks } from "../../../domain/useCases/useFavoritesAndArtWorks";
 import { ArtWorksList } from "../../shared/components/ArtWorksList";
-import { useIsFocused } from "@react-navigation/native";
 import { BackgroundView } from "../../shared/components/BackgroundView";
+import { useFavorites } from "../../../domain/useCases/useFavorites";
 
 export function ArtWorks({ }) {
+  const initialPagination = { limit: 15, page: 1 };
   const {
     artWorks,
     onScrollEnds,
-    isLoading,
     error: paginationError,
-    onFavoriteChange,
     reload
-  } = useFavoritesAndArtWorks({ limit: 15, page: 1 });
+  } = useFavoritesAndArtWorks(initialPagination);
+  const { onFavoriteChange } = useFavorites()
 
-  // TODO: reload is_favorite state comming from favorites
   useEffect(() => {
-    reload();
+    reload()
   }, [useIsFocused()])
 
   return (
@@ -25,7 +25,7 @@ export function ArtWorks({ }) {
       <ArtWorksList
         artWorks={artWorks}
         onElementClick={onFavoriteChange}
-        showLoader={isLoading}
+        showLoader={true}
         onScrollEnds={onScrollEnds}
         error={paginationError}
       />

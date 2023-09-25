@@ -5,7 +5,7 @@ import { usePaginateArtWorks } from "./usePaginateArtWorks"
 import { ArtWork } from "../entities/artWork";
 
 export const useFavoritesAndArtWorks = (initialPagination: Pagination) => {
-  const { favorites, onFavoriteChange, reload: reloadFavorites } = useFavorites()
+  const { favorites, reload: reloadFavorites } = useFavorites()
   const { artWorks: gotArtWorks, error, isLoading, onScrollEnds } = usePaginateArtWorks(initialPagination)
 
   const [artWorks, setArtWorks] = useState<ArtWork[]>([]);
@@ -19,33 +19,26 @@ export const useFavoritesAndArtWorks = (initialPagination: Pagination) => {
         return { ...artWork, is_favorite: true };
       }
 
-      return artWork;
+      return { ...artWork, is_favorite: false };
     });
 
-    //console.log(merged.filter(r => r.is_favorite).length);
-    setArtWorks(merged)
-  }, [gotArtWorks, favorites]);
-  const reload = useCallback(()=>{
-    reloadFavorites();
-    mergeFavoritesWithArtWorks();
-  },[])
+    setArtWorks(() => [...merged])
+  }, [favorites, gotArtWorks])
 
   useEffect(() => {
-    const favoritesAreEmpty = favorites && favorites.length === 0
-    if (favoritesAreEmpty) {
-      return setArtWorks(gotArtWorks);
-    }
 
     mergeFavoritesWithArtWorks();
-  }, [favorites, gotArtWorks])
+  }, [gotArtWorks, favorites])
+
+  const reload = useCallback(() => {
+    reloadFavorites()
+  }, [])
 
   return {
     artWorks,
     error,
-    onFavoriteChange,
     isLoading,
     onScrollEnds,
     reload,
-    favorites, // TODO remove
   }
 }

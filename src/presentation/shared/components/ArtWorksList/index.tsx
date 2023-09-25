@@ -4,7 +4,14 @@ import { ArtWorkCard } from "../ArtWorkCard";
 import { Props } from "./props";
 import { styles } from "./styles";
 
-export const ArtWorksList = ({ artWorks, onElementClick, onScrollEnds, error, showLoader }: Props) => {
+export const ArtWorksList = ({
+  artWorks,
+  onElementClick,
+  onScrollEnds,
+  error,
+  showLoader,
+}: Props) => {
+
   const renderFooter = () => {
     return (
       <View>
@@ -25,7 +32,7 @@ export const ArtWorksList = ({ artWorks, onElementClick, onScrollEnds, error, sh
           artWork={art}
         />
       )}
-      onEndReachedThreshold={10}
+      onEndReachedThreshold={0.5}
       onEndReached={() => onScrollEnds()}
       ListFooterComponent={renderFooter}
       showsVerticalScrollIndicator={false}

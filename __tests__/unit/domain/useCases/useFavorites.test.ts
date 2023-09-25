@@ -16,7 +16,7 @@ describe('useFavorites', () => {
   let favoritesRepositoryStub: SinonStubbedInstance<FavoritesRepository>;
 
   beforeEach(() => {
-    favoritesRepositoryStub = createStubObj<FavoritesRepository>(["clearAll", "getAll", "save", "deleteById"]);
+    favoritesRepositoryStub = createStubObj<FavoritesRepository>(["clearAll", "getAll", "save", "deleteById", "existById", "saveOne"]);
     testContainer.snapshot()
   })
 
@@ -120,6 +120,7 @@ describe('useFavorites', () => {
         }
       };
       favoritesRepositoryStub.getAll.resolves(existingFavorites);
+      favoritesRepositoryStub.existById.resolves(true);
       favoritesRepositoryStub.deleteById.resolves(existingFavorites.filter(fav => fav.id !== element.id));
       testContainer.bind<FavoritesRepository>("FavoritesRepository").toConstantValue(favoritesRepositoryStub);
 
@@ -137,7 +138,7 @@ describe('useFavorites', () => {
       expect(favorites).toStrictEqual(existingFavorites.filter(fav => fav.id !== element.id))
     })
 
-    it('Should remove element because it already exists', async () => {
+    it('Should add element beacuse does not exist', async () => {
       const element: ArtWork = {
         title: "test",
         description: "Some description",
@@ -153,7 +154,8 @@ describe('useFavorites', () => {
         }
       };
       favoritesRepositoryStub.getAll.resolves(existingFavorites);
-      favoritesRepositoryStub.save.resolves(existingFavorites.concat(element));
+      favoritesRepositoryStub.existById.resolves(false);
+      favoritesRepositoryStub.saveOne.resolves(existingFavorites.concat(element));
       testContainer.bind<FavoritesRepository>("FavoritesRepository").toConstantValue(favoritesRepositoryStub);
 
       const { result, waitForNextUpdate } = renderHook(

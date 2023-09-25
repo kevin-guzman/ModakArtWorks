@@ -20,7 +20,12 @@ export class FavoritesAdaptor implements FavoritesRepository {
           this.memoryList = data;
           resolve(data)
         })
-        .catch(error => reject(error))
+        .catch((error: Error) => {
+          if (this.isUnexistingValueError(error)) {
+            return resolve([]);
+          }
+          reject(error)
+        })
     })
   }
 
@@ -28,7 +33,7 @@ export class FavoritesAdaptor implements FavoritesRepository {
     return new Promise((resolve, reject) => {
       this.localStorage.set<ArtWork[]>(this.storageKey, artWork)
         .then(data => {
-          this.memoryList = artWork;
+          this.memoryList = data;
           resolve(data)
         })
         .catch(error => reject(error))
@@ -50,5 +55,42 @@ export class FavoritesAdaptor implements FavoritesRepository {
 
   clearAll(): Promise<void> {
     return this.localStorage.clear()
+  }
+
+  existById(id: ArtWorkID): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.getAll()
+        .then(gotFavorites => resolve(this.existInFavoritesArray(gotFavorites, id)))
+        .catch((error: Error) => {
+          if (this.isUnexistingValueError(error)) {
+            return resolve(false)
+          }
+
+          reject(error)
+        })
+    })
+  }
+
+  saveOne(artWork: ArtWork): Promise<ArtWork[]> {
+    return new Promise((resolve, reject) => {
+      this.getAll()
+        .then(storedFavorites => {
+          this.save(storedFavorites.concat(artWork))
+            .then(stored => {
+              this.memoryList = stored;
+              resolve(stored)
+            })
+            .catch((error: Error) => reject(error))
+        })
+        .catch((error: Error) => reject(error))
+    })
+  }
+
+  private isUnexistingValueError(error: Error): boolean {
+    return error.message === "Value is null for 6827a85b76e967f6a129e08f9272e76d key"
+  }
+
+  private existInFavoritesArray(favoritesArray: ArtWork[], id: ArtWorkID): boolean {
+    return favoritesArray.findIndex(favorite => favorite.id == id) !== -1
   }
 }
