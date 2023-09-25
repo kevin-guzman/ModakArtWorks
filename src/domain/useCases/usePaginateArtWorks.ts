@@ -30,6 +30,13 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
     setArtWorks([]);
     setReloadPagination(!reloadPagination);
   }
+  const filterArtWorksFromResponse = (data?:any):ArtWork[]=>{
+    return data?.filter((artWork:ArtWork)=>{
+      const { title, thumbnail, description, inscriptions } = artWork;
+      const isEmptyArtWork = !thumbnail || title === "Untitled" || !description || !inscriptions
+      return !isEmptyArtWork;
+    })
+  }
 
   useEffect(() => {
     if (paginationQuery.isLoading && isFetched) {
@@ -39,11 +46,7 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
     paginationQuery.refetch()
       .then(({ data, isSuccess }) => {
         if (isSuccess) {
-          data = data?.filter(artWork=>{
-            const { title, thumbnail, description, inscriptions } = artWork;
-            const isEmptyArtWork = !thumbnail || title === "Untitled" || !description || !inscriptions
-            return !isEmptyArtWork;
-          })
+          data = filterArtWorksFromResponse(data)
           
           setArtWorks((prevState) => [...new Set(prevState.concat(data as ArtWork[]))]);
           setPagination((prevState) => ({ ...prevState, page: prevState.page + 1 }));

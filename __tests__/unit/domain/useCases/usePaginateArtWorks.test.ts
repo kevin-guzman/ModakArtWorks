@@ -32,7 +32,7 @@ describe('usePaginateArtWorks', () => {
         description: "Some description",
         id: 2,
         image_id: "",
-        inscriptions: "",
+        inscriptions: "inscriptions",
         is_favorite: false,
         thumbnail: {
           alt_text: "",
@@ -43,6 +43,66 @@ describe('usePaginateArtWorks', () => {
       }
     ]
     artWorksRepositoryStub.getPaginated.resolves(expectedArtWorks);
+    testContainer.bind<ArtWorksRepository>("ArtWorksRepository").toConstantValue(artWorksRepositoryStub);
+
+    const { result, waitForNextUpdate } = renderHook(
+      () => usePaginateArtWorks({ limit: 1, page: 1 }),
+      { wrapper: createProviderWrapper(testContainer, testQueryClient) },
+    )
+    await waitForNextUpdate();
+    const { artWorks } = result.current;
+
+    expect(artWorks).toStrictEqual(expectedArtWorks)
+  })
+
+  it('Should filter invalid ArtWorks', async () => {
+    const expectedArtWorks: ArtWork[] = [
+      {
+        title: "test",
+        description: "Some description",
+        id: 2,
+        image_id: "",
+        inscriptions: "inscriptions",
+        is_favorite: false,
+        thumbnail: {
+          alt_text: "",
+          height: 20,
+          lqip: "",
+          width: 20
+        }
+      }
+    ]
+    const inputArtWorks: ArtWork[] = [
+      {
+        title: "test",
+        description: "Some description",
+        id: 2,
+        image_id: "",
+        inscriptions: "inscriptions",
+        is_favorite: false,
+        thumbnail: {
+          alt_text: "",
+          height: 20,
+          lqip: "",
+          width: 20
+        }
+      },
+      {
+        title: "test",
+        description: "",
+        id: 1,
+        image_id: "",
+        inscriptions: "",
+        is_favorite: false,
+        thumbnail: {
+          alt_text: "",
+          height: 20,
+          lqip: "",
+          width: 20
+        }
+      }
+    ]
+    artWorksRepositoryStub.getPaginated.resolves(inputArtWorks);
     testContainer.bind<ArtWorksRepository>("ArtWorksRepository").toConstantValue(artWorksRepositoryStub);
 
     const { result, waitForNextUpdate } = renderHook(
