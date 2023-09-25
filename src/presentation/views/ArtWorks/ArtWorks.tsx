@@ -1,21 +1,21 @@
 import { ActivityIndicator, Button, FlatList, Image, ImageBackground, SafeAreaView, ScrollView, StatusBar, Text, TouchableOpacity, View, useColorScheme } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
-import { usePaginateArtWorks } from "../../../domain/useCases/usePaginateArtWorks";
-import { useFavorites } from "../../../domain/useCases/useFavorites";
 import { useState } from "react";
 import { ArtWork } from "../../../domain/entities/artWork";
 import { ApplicationError } from "../../../domain/entities/applicationError";
 import { ArtWorkCard } from "../../shared/components/ArtWorkCard";
+import { useFavoritesAndArtWorks } from "../../../domain/useCases/useFavoritesAndArtWorks";
 
 export function ArtWorks({ }) {
   const {
     artWorks,
     onScrollEnds,
     isLoading,
-    error: paginationError
-  } = usePaginateArtWorks({ limit: 15, page: 1 });
-  const { favorites, onFavoriteChange } = useFavorites()
+    error: paginationError,
+    favorites,
+    onFavoriteChange
+  } = useFavoritesAndArtWorks({ limit: 15, page: 1 });
 
   const [re, setRe] = useState(false)
   const isDarkMode = useColorScheme() === 'dark';
@@ -85,7 +85,7 @@ const ArtWorksList = ({ artWorks, onElementClick, onScrollEnds, isLoadingContent
   return (
     <FlatList
       data={artWorks}
-      keyExtractor={({ id, image_id }, i) => id.toString()/* +image_id+i */}
+      keyExtractor={({ id }) => id.toString()}
       renderItem={({ item: art }) => (
         <ArtWorkCard
           addToFavoritesHandler={onElementClick}
