@@ -18,6 +18,15 @@ npm start
 yarn start
 ```
 
+# Testing:
+Te aplication has two types of tests, unit and end to end (e2e)
+## Unit:
+For the unit test, is used jeast as the main framework to run them just type the following command:
+```npm run test```
+## e2e
+For end to end testing is used [detox](https://blog.logrocket.com/react-native-end-to-end-testing-detox/) as main framework to run them, type the following command:
+```yarn e2e:ios ```
+
 ## Step 2: Start your Application
 
 Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:

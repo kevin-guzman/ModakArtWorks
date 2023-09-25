@@ -26,6 +26,17 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
   const onScrollEnds = () => {
     setReloadPagination(!reloadPagination);
   }
+  const reload = () => {
+    setArtWorks([]);
+    setReloadPagination(!reloadPagination);
+  }
+  const filterArtWorksFromResponse = (data?:any):ArtWork[]=>{
+    return data?.filter((artWork:ArtWork)=>{
+      const { title, thumbnail, description, inscriptions } = artWork;
+      const isEmptyArtWork = !thumbnail || title === "Untitled" || !description || !inscriptions
+      return !isEmptyArtWork;
+    })
+  }
 
   useEffect(() => {
     if (paginationQuery.isLoading && isFetched) {
@@ -35,6 +46,8 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
     paginationQuery.refetch()
       .then(({ data, isSuccess }) => {
         if (isSuccess) {
+          data = filterArtWorksFromResponse(data)
+          
           setArtWorks((prevState) => [...new Set(prevState.concat(data as ArtWork[]))]);
           setPagination((prevState) => ({ ...prevState, page: prevState.page + 1 }));
           setNoError();
@@ -51,5 +64,6 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
     onScrollEnds,
     isLoading,
     error,
+    reload,
   }
 };

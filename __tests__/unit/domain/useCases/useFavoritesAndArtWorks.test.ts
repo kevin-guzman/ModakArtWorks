@@ -33,8 +33,8 @@ describe('useFavorites', () => {
       title: "test",
       description: "Some description",
       id: 2,
-      image_id: "",
-      inscriptions: "",
+      image_id: "image id",
+      inscriptions: "inscription",
       is_favorite: false,
       thumbnail: {
         alt_text: "",
@@ -50,8 +50,8 @@ describe('useFavorites', () => {
       title: "test",
       description: "Some description",
       id: 2,
-      image_id: "",
-      inscriptions: "",
+      image_id: "image id",
+      inscriptions: "inscription",
       is_favorite: false,
       thumbnail: {
         alt_text: "",
@@ -64,8 +64,8 @@ describe('useFavorites', () => {
       title: "test12",
       description: "Some description12",
       id: 12,
-      image_id: "",
-      inscriptions: "",
+      image_id: "image id",
+      inscriptions: "inscription",
       is_favorite: false,
       thumbnail: {
         alt_text: "",
