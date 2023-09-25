@@ -7,7 +7,7 @@ import { BackgroundView } from "../../shared/components/BackgroundView";
 import { useFavorites } from "../../../domain/useCases/useFavorites";
 
 export function ArtWorks({ }) {
-  const initialPagination = { limit: 15, page: 1 };
+  const initialPagination = { limit: 30, page: 1 };
   const {
     artWorks,
     onScrollEnds,

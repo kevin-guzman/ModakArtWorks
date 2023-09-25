@@ -39,6 +39,12 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
     paginationQuery.refetch()
       .then(({ data, isSuccess }) => {
         if (isSuccess) {
+          data = data?.filter(artWork=>{
+            const { title, thumbnail, description, inscriptions } = artWork;
+            const isEmptyArtWork = !thumbnail || title === "Untitled" || !description || !inscriptions
+            return !isEmptyArtWork;
+          })
+          
           setArtWorks((prevState) => [...new Set(prevState.concat(data as ArtWork[]))]);
           setPagination((prevState) => ({ ...prevState, page: prevState.page + 1 }));
           setNoError();

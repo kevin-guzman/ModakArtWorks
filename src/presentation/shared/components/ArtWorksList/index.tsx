@@ -14,22 +14,25 @@ export const ArtWorksList = ({
 
   const renderFooter = () => {
     return (
-      <View>
+      <View testID="art-works-list-footer" >
         {error.hasError ?
-          <Text style={styles.errorText} >{error.message}</Text>
-          : showLoader && <ActivityIndicator style={styles.loader} size={"large"} />}
+          <Text  testID="art-works-list-footer[text]" style={styles.errorText} >{error.message}</Text>
+          : showLoader && <ActivityIndicator  testID="art-works-list-footer[loader]" style={styles.loader} size={"large"} />}
       </View>
     )
   }
 
   return (
     <FlatList
+      testID="art-works-list"
       data={artWorks}
       keyExtractor={({ id }) => id.toString()}
-      renderItem={({ item: art }) => (
+      renderItem={({ item: art, index }) => (
         <ArtWorkCard
+          testID="art-work-card"
           addToFavoritesHandler={onElementClick}
           artWork={art}
+          index={index}
         />
       )}
       onEndReachedThreshold={0.5}
