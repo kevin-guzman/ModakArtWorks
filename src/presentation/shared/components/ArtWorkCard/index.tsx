@@ -14,14 +14,14 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 
 export const ArtWorkCard = memo(({ artWork, addToFavoritesHandler }: ArtWorkCardProps) => {
-  const [filled, setFilled] = useState(false);
-
+  
   const toggleHeart = () => {
     setFilled(!filled);
     addToFavoritesHandler(artWork);
   };
-
-  const { image_id, title, thumbnail, description, inscriptions } = artWork;
+  
+  const { image_id, title, thumbnail, description, inscriptions, is_favorite } = artWork;
+  const [filled, setFilled] = useState(is_favorite);
   const isEmptyArtWork = !thumbnail || title === "Untitled" || !description || !inscriptions
   if (isEmptyArtWork) return null;
   const thumbnailWidth = thumbnail?.width || 100
@@ -70,5 +70,8 @@ export const ArtWorkCard = memo(({ artWork, addToFavoritesHandler }: ArtWorkCard
     </View>
   )
 }, (prevProps, nextProps)=>{
-  return prevProps.artWork.id == nextProps.artWork.id;
+  const areEqualIds = prevProps.artWork.id == nextProps.artWork.id
+  const areEqualFavoriteState = prevProps.artWork.is_favorite !== nextProps.artWork.is_favorite
+  const shouldReload = areEqualIds && areEqualFavoriteState;
+  return shouldReload;
 })

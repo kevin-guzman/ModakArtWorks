@@ -19,7 +19,6 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
   const [pagination, setPagination] = useState<Pagination>(initialPagination);
   const [reloadPagination, setReloadPagination] = useState(false);
   const { error, setNoError, setMessageFromString, setMessageFromError } = useApplicationError();
-  const [unmountedComponent, setUnmountedComponent] = useState(false);
 
   const paginationQuery = useQuery([constants.QUERY_ROUTE], () => artWorksRepository.getPaginated(pagination), {});
   const { isFetched, isLoading, } = paginationQuery;
@@ -27,15 +26,8 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
   const onScrollEnds = () => {
     setReloadPagination(!reloadPagination);
   }
-  const onUnmountComponent = () => {
-    setUnmountedComponent(true);
-  }
 
   useEffect(() => {
-    if (unmountedComponent) {
-      return;
-    }
-
     if (paginationQuery.isLoading && isFetched) {
       return;
     }
@@ -52,13 +44,7 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
 
         setMessageFromString(constants.FETCHING_ERROR);
       })
-  }, [reloadPagination, unmountedComponent])
-
-  useEffect(() => {
-    return () => {
-      onUnmountComponent()
-    }
-  }, [])
+  }, [reloadPagination])
 
   return {
     artWorks,
