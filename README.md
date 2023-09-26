@@ -1,88 +1,73 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Art works
 
-# Getting Started
+ArtWorks is an application that allow users to navigate for the catalog of artworks exposed by the _Art Institute of Chicago API_.
 
+The aplication has 3 screens, the main is the art gallery, that has an infinite scroll list to show users artworks, add to favorites, read a bit of information about that artwork and tap to see details.
+
+The favorites are never lost because they are stored in the application storage, so stay calm when you open other applications or when you close appworks because your favorites are safe!!
+
+Finally, you have a detialed view of the artwork, including, name, description, exhibition history, artist information and many other features (that will be included in next versions).
+
+At this moment we don´t support notifications, but be patient, in future versions you will can share your favorites artworks with friends!
+
+![Application flow](./docs/application_flow.gif)
+
+# Developer guide
 >**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 
-## Step 1: Start the Metro Server
-
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
-
-To start Metro, run the following command from the _root_ of your React Native project:
+## Running the application
 
 ```bash
-# using npm
-npm start
+# on android
+npx react-native run-android
 
-# OR using Yarn
-yarn start
+# on ios
+npx react-native run-ios
 ```
 
-# Testing:
+## Architecture
+![Architecture layers!](./docs/architecture.drawio.svg)
+
+- **Infraestructure**: Has the responsability of interact directly with the outputs and inputs of the system also do the adaptors to the ports defined in the domain layer. Examples of this layer can be expose web services, connect to databases, read task queues, communicate apis, interact with os, etc.
+- **Presentation**: Contains the ui of the application, has te responsability of interact direcly with the domain usecases for te application business flows.
+- **Domain**: Represents all the business logic of the application which is the reason for the business to exist. It try to avoid the [Anemic anti pattern](https://martinfowler.com/bliki/AnemicDomainModel.html) and suport the [Tell dont ask principle](https://martinfowler.com/bliki/TellDontAsk.html). In this layer you can find the following aggregate patterns, domain services, entities, value objects, repositories (port), etc.
+
+## Technical especifications
+- [Inversify](https://www.npmjs.com/package/inversify) Dependency injection framework.
+- [React Native Async Storage](https://github.com/react-native-async-storage/async-storage) Manage application storage.
+- [Axios](https://axios-http.com/es/docs/intro) Manage application http traffic.
+- [React Query](https://tanstack.com/query/v3/docs/react/overview) Handle http traffic with react hooks.
+- [Detox](https://github.com/wix/Detox) End to end test framework.
+
+
+To obtain more documentation on this type of architecture, it is recommended to read about [Hexagonal architecture and DDD](https://codely.tv/blog/screencasts/arquitectura-hexagonal-ddd/) (the application is not 100% based on this architecture, but application is based on some concepts) and [Clean architecture.](https://medium.com/globant/clean-architecture-for-mobile-to-be-or-not-to-be-2ffc8d46e402)
+
+## Testing:
 Te aplication has two types of tests, unit and end to end (e2e)
-## Unit:
-For the unit test, is used jeast as the main framework to run them just type the following command:
-```npm run test```
-## e2e
+### Unit:
+For the unit test, is used jest as the main framework to run them just type the following command:
+```bash
+npm run test
+```
+### e2e
 For end to end testing is used [detox](https://blog.logrocket.com/react-native-end-to-end-testing-detox/) as main framework to run them, type the following command:
-```yarn e2e:ios ```
-
-## Step 2: Start your Application
-
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
-
-### For Android
-
-```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
+```
+yarn e2e:ios 
 ```
 
-### For iOS
+![favorites flow](./docs/favorites_flow.gif)
+![details flow](./docs/details_flow.gif)
 
+
+>**Note**: Firs you should build application for e2e test, run 
 ```bash
-# using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
+yarn e2e:build:ios
 ```
+.
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+## Linter
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
-
-## Step 3: Modifying your App
-
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+To lint application use the following command:
+```bash
+yarn prettier:fix
+```
