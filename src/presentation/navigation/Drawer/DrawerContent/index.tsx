@@ -10,6 +10,7 @@ export const DrawerContent = ({ navigation }: DrawerContentComponentProps) => {
 
   const renderItem = (item: contentElement) => (
     <TouchableOpacity
+      key={item.navigation}
       onPress={() => navigate(item.navigation)}
       style={styles.itemContainer}>
       <Text style={styles.itemTitle}>{item.title}</Text>

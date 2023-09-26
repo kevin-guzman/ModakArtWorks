@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Props } from './props';
 import { styles } from './styles';
 import { ArtWork } from '../../../../domain/entities/artWork';
+import { aic } from '../../../../infrastructure/config/api/urls';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 const getImageDimensions = (thumbnail: ArtWork['thumbnail']) => {
@@ -113,7 +114,7 @@ export const ArtWorkCard = memo(
               opacity: opacityAnimated,
             }}
             source={{
-              uri: `https://www.artic.edu/iiif/2/${image_id}/full/843,/0/default.jpg`,
+              uri: aic.images.getById(image_id),
             }}
             width={imageWidth}
             height={imageHeight}

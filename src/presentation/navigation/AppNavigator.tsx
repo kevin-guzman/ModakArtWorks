@@ -1,5 +1,5 @@
 import { SafeAreaView, Text } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useRoute } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { ArtWorks } from '../views/ArtWorks/ArtWorks';
@@ -19,11 +19,14 @@ export const AppNavigator = ({}) => {
         screenOptions={({ navigation }) => ({
           headerTitleAlign: 'center',
           headerStyle: { backgroundColor: 'black' },
-          headerTitle: ({}) => (
-            <Text style={{ color: 'white', fontStyle: 'italic' }}>
-              {routesTitles.ArtWorks}
-            </Text>
-          ),
+          headerTitle: ({}) => {
+            const { name } = useRoute();
+            return (
+              <Text style={{ color: 'white', fontStyle: 'italic' }}>
+                {routesTitles[name as routes]}
+              </Text>
+            );
+          },
           headerTintColor: 'white',
           headerLeft: ({}) => <DrawerMenu navigation={navigation} />,
         })}

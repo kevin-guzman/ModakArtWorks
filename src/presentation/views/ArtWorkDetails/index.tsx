@@ -2,12 +2,17 @@ import { Text } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import { RootStackParamList } from '../../navigation/paramsList';
+import { BackgroundView } from '../../shared/components/BackgroundView';
 
 export function ArtWorkDetails({
   route,
   navigation,
 }: NativeStackScreenProps<RootStackParamList, 'ArtWorkDetails'>) {
-  console.log(route.params);
+  const { description } = route.params.artWork;
 
-  return <Text>Hola mundooooooooooooooo</Text>;
+  return (
+    <BackgroundView>
+      <Text>{description}</Text>
+    </BackgroundView>
+  );
 }
