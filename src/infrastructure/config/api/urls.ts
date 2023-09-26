@@ -20,7 +20,6 @@ export const aic = {
       fields.forEach((field, index) => {
         const appendComma = index !== fields.length - 1;
         const comma = appendComma ? ',' : '';
-
         fieldsParam += field + comma;
       });
 
@@ -28,6 +27,7 @@ export const aic = {
     },
   },
   images: {
-    getById: (image_id:string) => `${IIIF_BASE_URL}/${image_id}/full/843,/0/default.jpg`,
+    getById: (image_id: string) =>
+      `${IIIF_BASE_URL}/${image_id}/full/843,/0/default.jpg`,
   },
 };

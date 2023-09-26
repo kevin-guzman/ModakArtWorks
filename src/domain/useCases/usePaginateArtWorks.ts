@@ -19,8 +19,7 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
   const [artWorks, setArtWorks] = useState<ArtWork[]>([]);
   const [pagination, setPagination] = useState<Pagination>(initialPagination);
   const [reloadPagination, setReloadPagination] = useState(false);
-  const { error, setNoError, setMessageFromString, setMessageFromError } =
-    useApplicationError();
+  const { error, setNoError, setMessageFromString } = useApplicationError();
 
   const paginationQuery = useQuery(
     [constants.QUERY_ROUTE],

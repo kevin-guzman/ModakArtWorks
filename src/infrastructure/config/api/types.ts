@@ -11,8 +11,8 @@ export enum Field {
   ImageID = 'image_id',
 }
 
-export type ArtWorksResponse = {
-  data: ArtWork[];
+export type ArtWorksResponse<T> = {
+  data: T;
   pagination: {
     total: number;
     limit: number;
