@@ -1,5 +1,5 @@
-import { ArtWork } from "../../../domain/entities/artWork";
+import { ArtWork } from '../../../domain/entities/artWork';
 
-export type Props= {
+export type Props = {
   artWork: ArtWork;
 };

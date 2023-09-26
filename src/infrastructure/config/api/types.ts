@@ -1,4 +1,4 @@
-import { ArtWork } from "../../../domain/entities/artWork";
+import { ArtWork } from '../../../domain/entities/artWork';
 
 export type ArtWorkID = number | string;
 

@@ -1,19 +1,26 @@
-import { useCallback, useEffect, useState } from "react";
-import { Pagination } from "../shared/types/pagination";
-import { useFavorites, constants } from "./useFavorites"
-import { usePaginateArtWorks } from "./usePaginateArtWorks"
-import { ArtWork } from "../entities/artWork";
+import { useCallback, useEffect, useState } from 'react';
+import { Pagination } from '../shared/types/pagination';
+import { useFavorites, constants } from './useFavorites';
+import { usePaginateArtWorks } from './usePaginateArtWorks';
+import { ArtWork } from '../entities/artWork';
 
 export const useFavoritesAndArtWorks = (initialPagination: Pagination) => {
-  const { favorites, reload: reloadFavorites } = useFavorites()
-  const { artWorks: gotArtWorks, error, isLoading, onScrollEnds } = usePaginateArtWorks(initialPagination)
+  const { favorites, reload: reloadFavorites } = useFavorites();
+  const {
+    artWorks: gotArtWorks,
+    error,
+    isLoading,
+    onScrollEnds,
+  } = usePaginateArtWorks(initialPagination);
 
   const [artWorks, setArtWorks] = useState<ArtWork[]>([]);
 
   const mergeFavoritesWithArtWorks = useCallback(() => {
-    const merged: ArtWork[] = gotArtWorks.map((artWork) => {
-      const { id } = artWork
-      const isInFavorites = favorites.findIndex((fav) => fav.id == id) !== constants.UNEXISTING_FAVORITE_INDEX
+    const merged: ArtWork[] = gotArtWorks.map(artWork => {
+      const { id } = artWork;
+      const isInFavorites =
+        favorites.findIndex(fav => fav.id == id) !==
+        constants.UNEXISTING_FAVORITE_INDEX;
 
       if (isInFavorites) {
         return { ...artWork, is_favorite: true };
@@ -22,17 +29,16 @@ export const useFavoritesAndArtWorks = (initialPagination: Pagination) => {
       return { ...artWork, is_favorite: false };
     });
 
-    setArtWorks(() => [...merged])
-  }, [favorites, gotArtWorks])
+    setArtWorks(() => [...merged]);
+  }, [favorites, gotArtWorks]);
 
   useEffect(() => {
-
     mergeFavoritesWithArtWorks();
-  }, [gotArtWorks, favorites])
+  }, [gotArtWorks, favorites]);
 
   const reload = useCallback(() => {
-    reloadFavorites()
-  }, [])
+    reloadFavorites();
+  }, []);
 
   return {
     artWorks,
@@ -40,5 +46,5 @@ export const useFavoritesAndArtWorks = (initialPagination: Pagination) => {
     isLoading,
     onScrollEnds,
     reload,
-  }
-}
+  };
+};

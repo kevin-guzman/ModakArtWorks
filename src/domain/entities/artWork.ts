@@ -1,4 +1,4 @@
-import { ArtWorkID } from "./artWorkId";
+import { ArtWorkID } from './artWorkId';
 
 // TODO: remove unnecesary fields
 export type ArtWork = {

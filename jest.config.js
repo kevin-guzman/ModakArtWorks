@@ -1,9 +1,9 @@
 module.exports = {
   preset: 'react-native',
-  testPathIgnorePatterns:[
+  testPathIgnorePatterns: [
     '/__utils__/'
   ],
-  setupFiles:[
-    "<rootDir>/e2e/setupFile.js"
+  setupFiles: [
+    '<rootDir>/e2e/setupFile.js'
   ]
-};
+}
