@@ -1,3 +1,4 @@
+import { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
   RefreshControl,
@@ -14,8 +15,11 @@ import { getImageDimensionsByThumbnail } from '../../shared/functions/getImageDi
 import { aic } from '../../../infrastructure/config/api/urls';
 import { SquareFrame } from '../../shared/components/SquareFrame';
 import { View } from 'react-native-animatable';
-import { useCallback, useState } from 'react';
-import React from 'react';
+import {
+  DrawerPurpose,
+  useDrawerPurpose,
+} from '../../navigation/context/useDrawerIconPurpose';
+import { useFocusEffect } from '@react-navigation/native';
 
 export const sanitizeDescription = (
   description?: string | null | undefined,
@@ -39,6 +43,16 @@ export function ArtWorkDetails({
   route,
 }: NativeStackScreenProps<RootStackParamList, 'ArtWorkDetails'>) {
   const { id, thumbnail, image_id, title } = route.params.artWork;
+  const { setDrawerPurpose } = useDrawerPurpose();
+
+  useFocusEffect(
+    useCallback(() => {
+      setDrawerPurpose(DrawerPurpose.BackNavigation);
+      return () => {
+        setDrawerPurpose(DrawerPurpose.ToggleDrawerMenu);
+      };
+    }, []),
+  );
 
   const { details, error, onReload, isLoading } = useGetArtWorkDetail(id);
   const [refreshing, setRefreshing] = useState(false);

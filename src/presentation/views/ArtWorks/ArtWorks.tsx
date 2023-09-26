@@ -11,11 +11,9 @@ import { ArtWorksList } from '../../shared/components/ArtWorksList';
 import { BackgroundView } from '../../shared/components/BackgroundView';
 import { useFavorites } from '../../../domain/useCases/useFavorites';
 import { routes } from '../../navigation/routes';
-import {
-  NativeStackNavigationProp,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/paramsList';
+import { useDrawerPurpose } from '../../navigation/context/useDrawerIconPurpose';
 
 type props = {
   navigation: NavigationProp<ParamListBase>;
@@ -24,6 +22,7 @@ export function ArtWorks({ navigation }: props) {
   const initialPagination = { limit: 30, page: 1 };
   const { navigate } =
     useNavigation<NativeStackNavigationProp<RootStackParamList, 'ArtWorks'>>();
+
   const {
     artWorks,
     onScrollEnds,
