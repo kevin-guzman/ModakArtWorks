@@ -1,11 +1,12 @@
-import { ApplicationError } from "../../../../domain/entities/applicationError";
-import { ArtWork } from "../../../../domain/entities/artWork";
+import { ApplicationError } from '../../../../domain/entities/applicationError';
+import { ArtWork } from '../../../../domain/entities/artWork';
 
 export type Props = {
-  artWorks: ArtWork[]
-  onElementClick: (element: ArtWork) => Promise<void> | void;
+  artWorks: ArtWork[];
+  onFavoritePress: (element: ArtWork) => Promise<void> | void;
   onScrollEnds: () => void;
   showLoader: boolean;
   error: ApplicationError;
-  animateOnRemove?:boolean;
-}
+  animateOnRemove?: boolean;
+  onCardPress: (element: ArtWork) => void;
+};

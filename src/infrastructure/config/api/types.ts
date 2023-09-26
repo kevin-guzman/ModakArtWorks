@@ -1,9 +1,18 @@
-import { ArtWork } from "../../../domain/entities/artWork";
+import { ArtWork } from '../../../domain/entities/artWork';
 
 export type ArtWorkID = number | string;
 
-export type ArtWorksResponse = {
-  data: ArtWork[];
+export enum Field {
+  ID = 'id',
+  Title = 'title',
+  Thumbnail = 'thumbnail',
+  Description = 'description',
+  Inscriptions = 'inscriptions',
+  ImageID = 'image_id',
+}
+
+export type ArtWorksResponse<T> = {
+  data: T;
   pagination: {
     total: number;
     limit: number;

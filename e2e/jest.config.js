@@ -9,15 +9,15 @@ module.exports = {
   reporters: ['detox/runners/jest/reporter'],
   testEnvironment: 'detox/runners/jest/testEnvironment',
   verbose: true,
-  preset:'ts-jest',
+  preset: 'ts-jest',
   // setupFiles
   // transformIgnorePatterns : ["/node_modules/@react-native-community/async-storage/(?!(lib))"],
   // setupFilesAfterEnv: [
   //   '<rootDir>/e2e/setupFile.js',
   // ],
-  setupFiles:[
-    "<rootDir>/e2e/setupFile.js"
+  setupFiles: [
+    '<rootDir>/e2e/setupFile.js'
   ]
-  //testEnvironment: "node",
+  // testEnvironment: "node",
   // setupTestFrameworkScriptFile: "./init.ts"
-};
+}

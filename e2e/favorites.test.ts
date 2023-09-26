@@ -40,10 +40,10 @@ describe('Adding to favorites', () => {
     await waitFor(element(by.id('art-work-card-like-0'))).toExist().withTimeout(existTime)
     await element(by.id('art-work-card-like-0')).tap();
 
-    // Open drawer navigation and navigate to List
+    // Open drawer navigation and navigate to Gallery
     await element(by.id('drawer-menu')).tap();
-    await expect(element(by.text('List'))).toBeVisible();
-    await element(by.text('List')).tap();
+    await expect(element(by.text('Gallery'))).toBeVisible();
+    await element(by.text('Gallery')).tap();
 
     // Validate that the artwork is unliked
     const unlikedAttributes = await element(by.id('art-work-card-like-icon-0')).getAttributes();

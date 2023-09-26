@@ -1,32 +1,36 @@
-import { useEffect } from "react";
-import { useIsFocused } from "@react-navigation/native";
+import { useEffect } from 'react';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 
-import { ArtWorksList } from "../../shared/components/ArtWorksList";
-import { useFavorites } from "../../../domain/useCases/useFavorites";
-import { BackgroundView } from "../../shared/components/BackgroundView";
+import { ArtWorksList } from '../../shared/components/ArtWorksList';
+import { useFavorites } from '../../../domain/useCases/useFavorites';
+import { BackgroundView } from '../../shared/components/BackgroundView';
+import { routes } from '../../navigation/routes';
 
-export function Favorites({ }) {
+export function Favorites({}) {
+  const { navigate } = useNavigation();
+
   const {
     error: paginationError,
     onFavoriteChange,
     favorites,
-    reload
+    reload,
   } = useFavorites();
 
   useEffect(() => {
     reload();
-  }, [useIsFocused()])
+  }, [useIsFocused()]);
 
   return (
     <BackgroundView>
       <ArtWorksList
         artWorks={favorites}
-        onElementClick={onFavoriteChange}
+        onFavoritePress={onFavoriteChange}
         showLoader={false}
-        onScrollEnds={() => { }}
+        onScrollEnds={() => {}}
         error={paginationError}
         animateOnRemove={true}
+        onCardPress={() => navigate(routes.ArtWorkDetails as never)}
       />
-    </BackgroundView >
-  )
+    </BackgroundView>
+  );
 }

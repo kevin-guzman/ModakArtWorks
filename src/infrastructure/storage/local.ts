@@ -1,11 +1,11 @@
-import { injectable } from "inversify";
+import { injectable } from 'inversify';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface LocalStorageManager {
   get<T>(key: string): Promise<T>;
   set<T>(key: string, value: T): Promise<T>;
-  delete<T>(key: string): Promise<void>
-  clear(): Promise<void>
+  delete<T>(key: string): Promise<void>;
+  clear(): Promise<void>;
 }
 
 @injectable()
@@ -15,29 +15,29 @@ export class RNLocalStorageManager implements LocalStorageManager {
       AsyncStorage.getItem(key)
         .then(response => {
           if (response === null) {
-            return reject(new Error(`Value is null for ${key} key`))
+            return reject(new Error(`Value is null for ${key} key`));
           }
 
-          const jsonValue = JSON.parse(response)
-          resolve(jsonValue as T)
+          const jsonValue = JSON.parse(response);
+          resolve(jsonValue as T);
         })
-        .catch((e) => reject(e))
-    })
+        .catch(e => reject(e));
+    });
   }
 
   set<T>(key: string, value: T): Promise<T> {
     return new Promise((resolve, reject) => {
-      const jsonString = JSON.stringify(value)
+      const jsonString = JSON.stringify(value);
       AsyncStorage.setItem(key, jsonString)
         .then(response => {
           if (response === null) {
-            return reject(new Error(`Value was not stored for ${key} key`))
+            return reject(new Error(`Value was not stored for ${key} key`));
           }
 
-          resolve(value)
+          resolve(value);
         })
-        .catch((e) => reject(e))
-    })
+        .catch(e => reject(e));
+    });
   }
 
   delete<T>(key: string): Promise<void> {
@@ -45,17 +45,16 @@ export class RNLocalStorageManager implements LocalStorageManager {
       AsyncStorage.removeItem(key)
         .then(response => {
           if (response === null) {
-            return reject(new Error(`Value was not deketed for ${key} key`))
+            return reject(new Error(`Value was not deketed for ${key} key`));
           }
 
-          resolve()
+          resolve();
         })
-        .catch((e) => reject(e))
-    })
+        .catch(e => reject(e));
+    });
   }
 
   clear(): Promise<void> {
     return AsyncStorage.clear();
   }
-
 }

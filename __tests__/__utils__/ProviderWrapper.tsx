@@ -1,10 +1,10 @@
 import { Provider } from "inversify-react";
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { FunctionComponent } from "react";
+import { FunctionComponent, ReactNode } from "react";
 import { Container } from "inversify";
 
 type props = {
-  children: any
+  children: ReactNode
 }
 
 export const createProviderWrapper = (constainer: Container, queryClient: QueryClient): FunctionComponent<props> => {

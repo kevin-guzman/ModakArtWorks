@@ -1,7 +1,7 @@
-import { ReactNode } from "react";
-import { ViewStyle } from "react-native";
+import { ReactNode } from 'react';
+import { ViewStyle } from 'react-native';
 
 export type Props = {
-  children: ReactNode
+  children: ReactNode;
   style?: ViewStyle;
 };

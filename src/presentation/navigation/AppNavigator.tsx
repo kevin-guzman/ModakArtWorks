@@ -1,69 +1,47 @@
+import { SafeAreaView, Text } from 'react-native';
+import { NavigationContainer, useRoute } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import { DrawerContentComponentProps, createDrawerNavigator } from '@react-navigation/drawer';
-import { ArtWorks } from "../views/ArtWorks/ArtWorks";
-import { NavigationContainer } from '@react-navigation/native';
-import { SafeAreaView, Text, TouchableOpacity } from 'react-native';
+import { ArtWorks } from '../views/ArtWorks/ArtWorks';
 import { Favorites } from '../views/Favorites/Favorites';
-import { BackgroundView } from '../shared/components/BackgroundView';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { routes, routesTitles } from './routes';
+import { ArtWorkDetails } from '../views/ArtWorkDetails';
+import { DrawerMenu } from './Drawer/DrawerMenu';
+import { DrawerContent } from './Drawer/DrawerContent';
+import { RootStackParamList } from './paramsList';
+import { DrawerProvider } from './context/useDrawerIconPurpose';
 
-
-
-const Drawer = createDrawerNavigator();
-
-const DrawerContent = ({ descriptors, navigation, state }: DrawerContentComponentProps) => {
-  const { navigate, reset } = navigation
-
-  return (
-    <BackgroundView style={{ justifyContent: 'center', alignItems: 'center' }} >
-      <TouchableOpacity onPress={() => {
-        navigate("Favorites")
-      }}
-        style={{ marginBottom: 30 }}
-      >
-        <Text style={{ color: 'white' }} >Favorites</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => {
-        navigate("ArtWorks")
-      }} >
-        <Text style={{ color: 'white' }} >List</Text>
-      </TouchableOpacity>
-    </BackgroundView>
-  )
-}
-
-export const DrawerMenu = ({ navigation }: any) => {
-  return (
-    <TouchableOpacity style={{marginLeft:5}} onPress={() => navigation.toggleDrawer()}>
-      <Icon size={30} name='menu' color={"white"} testID='drawer-menu' />
-    </TouchableOpacity>
-  )
-}
-
-export const AppNavigator = ({ }) => {
+const Drawer = createDrawerNavigator<RootStackParamList>();
+export const AppNavigator = ({}) => {
   return (
     <NavigationContainer>
-      <SafeAreaView />
-      <Drawer.Navigator
-        screenOptions={({ navigation }) => ({
-          headerTitleAlign: 'center',
-          headerStyle: { backgroundColor: 'black' },
-          headerTitle: ({ }) => null, //<Text style={{color:'white'}} >effrh</Text>,
-          headerTintColor: "white",
-          headerLeft: ({ }) => <DrawerMenu navigation={navigation} />,
-        })}
-        drawerContent={DrawerContent}
-        initialRouteName="ArtWorks"
-      >
-        <Drawer.Screen
-          name="ArtWorks"
-          component={ArtWorks}
-        />
-        <Drawer.Screen
-          name='Favorites'
-          component={Favorites}
-        />
-      </Drawer.Navigator>
+      <DrawerProvider>
+        <SafeAreaView />
+        <Drawer.Navigator
+          screenOptions={({ navigation }) => ({
+            headerTitleAlign: 'center',
+            headerStyle: { backgroundColor: 'black' },
+            headerTitle: ({}) => {
+              const { name } = useRoute();
+              return (
+                <Text style={{ color: 'white', fontStyle: 'italic' }}>
+                  {routesTitles[name as routes]}
+                </Text>
+              );
+            },
+            headerTintColor: 'white',
+            headerLeft: ({}) => <DrawerMenu navigation={navigation} />,
+          })}
+          drawerContent={DrawerContent}
+          initialRouteName={routes.ArtWorksList}>
+          <Drawer.Screen name={routes.ArtWorksList} component={ArtWorks} />
+          <Drawer.Screen name={routes.Favorites} component={Favorites} />
+          <Drawer.Screen
+            name={routes.ArtWorkDetails}
+            component={ArtWorkDetails}
+          />
+        </Drawer.Navigator>
+      </DrawerProvider>
     </NavigationContainer>
-  )
-}
+  );
+};

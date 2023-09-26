@@ -1,27 +1,37 @@
-import { ActivityIndicator, FlatList, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 
-import { ArtWorkCard } from "../ArtWorkCard";
-import { Props } from "./props";
-import { styles } from "./styles";
+import { ArtWorkCard } from '../ArtWorkCard';
+import { Props } from './props';
+import { styles } from './styles';
 
 export const ArtWorksList = ({
   artWorks,
-  onElementClick,
+  onFavoritePress,
   onScrollEnds,
   error,
   showLoader,
-  animateOnRemove
+  animateOnRemove,
+  onCardPress,
 }: Props) => {
-
   const renderFooter = () => {
     return (
-      <View testID="art-works-list-footer" >
-        {error.hasError ?
-          <Text  testID="art-works-list-footer[text]" style={styles.errorText} >{error.message}</Text>
-          : showLoader && <ActivityIndicator  testID="art-works-list-footer[loader]" style={styles.loader} size={"large"} />}
+      <View testID="art-works-list-footer">
+        {error.hasError ? (
+          <Text testID="art-works-list-footer[text]" style={styles.errorText}>
+            {error.message}
+          </Text>
+        ) : (
+          showLoader && (
+            <ActivityIndicator
+              testID="art-works-list-footer[loader]"
+              style={styles.loader}
+              size={'large'}
+            />
+          )
+        )}
       </View>
-    )
-  }
+    );
+  };
 
   return (
     <FlatList
@@ -31,10 +41,11 @@ export const ArtWorksList = ({
       renderItem={({ item: art, index }) => (
         <ArtWorkCard
           testID="art-work-card"
-          addToFavoritesHandler={onElementClick}
+          addToFavoritesHandler={onFavoritePress}
           artWork={art}
           index={index}
           animateOnRemove={animateOnRemove}
+          onCardPress={onCardPress}
         />
       )}
       onEndReachedThreshold={0.5}
@@ -43,5 +54,5 @@ export const ArtWorksList = ({
       showsVerticalScrollIndicator={false}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
     />
-  )
-}
+  );
+};
