@@ -1,37 +1,14 @@
 import { memo, useEffect, useState } from 'react';
 import * as Animatable from 'react-native-animatable';
-import {
-  Animated,
-  Dimensions,
-  Image,
-  LayoutAnimation,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Animated, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { Props } from './props';
 import { styles } from './styles';
-import { ArtWork } from '../../../../domain/entities/artWork';
 import { aic } from '../../../../infrastructure/config/api/urls';
-
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
-const getImageDimensions = (thumbnail: ArtWork['thumbnail']) => {
-  const thumbnailWidth = thumbnail?.width || 100;
-  const thumbnailHeight = thumbnail?.height || 100;
-  const aspectRatio = thumbnailWidth / thumbnailHeight;
-  const screeenPercentage = 80;
-  let imageWidth = (screeenPercentage / 100) * screenWidth;
-  let imageHeight = (screeenPercentage / 100) * screenHeight;
-  if (imageWidth / imageHeight > aspectRatio) {
-    imageWidth = imageHeight * aspectRatio;
-  } else {
-    imageHeight = imageWidth / aspectRatio;
-  }
-
-  return { imageHeight, imageWidth };
-};
+import { AdaptableImage } from '../AdaptableImage';
+import { getImageDimensionsByThumbnail } from '../../functions/getImageDimensionsByThumbnail';
+import { SquareFrame } from '../SquareFrame';
 
 export const ArtWorkCard = memo(
   ({
@@ -69,7 +46,8 @@ export const ArtWorkCard = memo(
       setFilled(is_favorite);
     }, [is_favorite]);
 
-    const { imageHeight, imageWidth } = getImageDimensions(thumbnail);
+    const { imageHeight, imageWidth } =
+      getImageDimensionsByThumbnail(thumbnail);
     const opacityAnimated = new Animated.Value(1);
     const containerWidthAnimated = new Animated.Value(imageWidth + 50);
     const imageWidthAnimated = new Animated.Value(imageWidth);
@@ -100,30 +78,23 @@ export const ArtWorkCard = memo(
     };
 
     return (
-      <Animated.View
-        style={{
-          ...styles.frame,
-          width: containerWidthAnimated,
-          opacity: opacityAnimated,
+      <SquareFrame
+        isAnimated={animateOnRemove}
+        animationParams={{
+          conatinerWidth: containerWidthAnimated,
+          opacityAnimated,
         }}>
         <TouchableOpacity onPress={() => onCardPress(artWork)} testID={testID}>
-          <Animated.Image
-            style={{
-              ...styles.image,
-              width: imageWidthAnimated,
-              opacity: opacityAnimated,
-            }}
-            source={{
-              uri: aic.images.getById(image_id),
-            }}
+          <AdaptableImage
+            uri={aic.images.getById(image_id)}
+            isAnimated={animateOnRemove}
+            animationParams={{ imageWidthAnimated, opacityAnimated }}
             width={imageWidth}
             height={imageHeight}
           />
           <View style={styles.detailsContainer}>
             <View style={styles.details}>
-              <Text numberOfLines={2}>
-                {index} - {title}
-              </Text>
+              <Text numberOfLines={2}>{title}</Text>
               <Text numberOfLines={3}>{inscriptions}</Text>
             </View>
             <TouchableOpacity
@@ -144,7 +115,7 @@ export const ArtWorkCard = memo(
             </TouchableOpacity>
           </View>
         </TouchableOpacity>
-      </Animated.View>
+      </SquareFrame>
     );
   },
   (prevProps, nextProps) => {

@@ -1,7 +1,11 @@
+import {
+  DrawerContentComponentProps,
+  DrawerNavigationProp,
+} from '@react-navigation/drawer';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export const DrawerMenu = ({ navigation }: any) => {
+export const DrawerMenu = ({ navigation }: DrawerContentComponentProps) => {
   return (
     <TouchableOpacity
       style={styes.container}

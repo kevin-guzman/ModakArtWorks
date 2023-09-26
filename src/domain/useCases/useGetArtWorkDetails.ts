@@ -51,5 +51,6 @@ export const useGetArtWorkDetail = (id: ArtWorkID) => {
     details,
     onReload,
     error,
+    isLoading,
   };
 };
