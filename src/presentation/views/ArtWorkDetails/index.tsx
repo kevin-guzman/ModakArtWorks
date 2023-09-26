@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
+  Animated,
   RefreshControl,
   ScrollView,
   Text,
@@ -48,6 +49,7 @@ export function ArtWorkDetails({
   useFocusEffect(
     useCallback(() => {
       setDrawerPurpose(DrawerPurpose.BackNavigation);
+      animate();
       return () => {
         setDrawerPurpose(DrawerPurpose.ToggleDrawerMenu);
       };
@@ -70,6 +72,32 @@ export function ArtWorkDetails({
     thumbnail,
     90,
   );
+
+  const opacityAnimated = new Animated.Value(0);
+  const containerWidthAnimated = new Animated.Value(0);
+  const imageWidthAnimated = new Animated.Value(100);
+
+  // TODO test animation to resize art work
+  const animate = () => {
+    const useNativeDriver = false;
+    Animated.parallel([
+      Animated.timing(containerWidthAnimated, {
+        toValue: imageWidth + 30,
+        duration: 500,
+        useNativeDriver,
+      }),
+      Animated.timing(imageWidthAnimated, {
+        toValue: imageWidth + 500,
+        duration: 450,
+        useNativeDriver,
+      }),
+      Animated.timing(opacityAnimated, {
+        toValue: 1,
+        duration: 450,
+        useNativeDriver,
+      }),
+    ]).start(() => {});
+  };
 
   let detailsComponent;
   if (isLoading) {
@@ -154,10 +182,9 @@ export function ArtWorkDetails({
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
-        <SquareFrame isAnimated={false} style={{ borderWidth: 8, padding: 5 }}>
+        <SquareFrame style={{ borderWidth: 8, padding: 5 }}>
           <AdaptableImage
             uri={aic.images.getById(image_id)}
-            isAnimated
             height={imageHeight}
             width={imageWidth}
           />
