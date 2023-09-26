@@ -9,4 +9,5 @@ export type Props = {
   };
   children: ReactNode;
   style?: ViewStyle;
+  testID?: string;
 };

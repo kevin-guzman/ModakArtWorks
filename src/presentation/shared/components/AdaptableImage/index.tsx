@@ -9,10 +9,12 @@ export const AdaptableImage = ({
   animationParams,
   height,
   width,
+  testID,
 }: Props) => {
   if (!isAnimated || !animationParams) {
     return (
       <Image
+        testID={testID}
         style={styles.image}
         source={{ uri }}
         width={width}
@@ -23,6 +25,7 @@ export const AdaptableImage = ({
 
   return (
     <Animated.Image
+      testID={testID}
       style={{
         ...styles.image,
         width: animationParams.imageWidthAnimated,

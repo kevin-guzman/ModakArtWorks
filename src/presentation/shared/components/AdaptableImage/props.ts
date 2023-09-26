@@ -9,4 +9,5 @@ export type Props = {
   uri: string;
   width: number;
   height: number;
+  testID?: string;
 };

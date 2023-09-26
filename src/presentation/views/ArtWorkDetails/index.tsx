@@ -120,6 +120,7 @@ export function ArtWorkDetails({
     detailsComponent = (
       <View>
         <Text
+          testID="atr-work-details[artis]"
           style={{
             fontStyle: 'italic',
             color: 'white',
@@ -130,6 +131,7 @@ export function ArtWorkDetails({
         </Text>
 
         <Text
+          testID="atr-work-details[description]"
           style={{
             fontStyle: 'italic',
             color: 'white',
@@ -146,12 +148,13 @@ export function ArtWorkDetails({
               fontWeight: 'bold',
               textAlign: 'center',
             }}>
-            Description {'\n\n'}
+            Description{'\n\n'}
           </Text>
           {sanitizeDescription(details?.description)}
         </Text>
 
         <Text
+          testID="atr-work-details[exhibition-history]"
           style={{
             fontStyle: 'italic',
             color: 'white',
@@ -182,8 +185,9 @@ export function ArtWorkDetails({
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
-        <SquareFrame style={{ borderWidth: 8, padding: 5 }}>
+        <SquareFrame testID='art-works-detail-frame' style={{ borderWidth: 8, padding: 5 }}>
           <AdaptableImage
+          testID='art-works-detail-image'
             uri={aic.images.getById(image_id)}
             height={imageHeight}
             width={imageWidth}
