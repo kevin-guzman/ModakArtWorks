@@ -6,7 +6,7 @@ import { styles } from "./styles";
 
 export const ArtWorksList = ({
   artWorks,
-  onElementClick,
+  onFavoritePress,
   onScrollEnds,
   error,
   showLoader,
@@ -32,7 +32,7 @@ export const ArtWorksList = ({
       renderItem={({ item: art, index }) => (
         <ArtWorkCard
           testID="art-work-card"
-          addToFavoritesHandler={onElementClick}
+          addToFavoritesHandler={onFavoritePress}
           artWork={art}
           index={index}
           animateOnRemove={animateOnRemove}

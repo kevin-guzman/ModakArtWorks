@@ -26,7 +26,7 @@ export function Favorites({ }) {
     <BackgroundView>
       <ArtWorksList
         artWorks={favorites}
-        onElementClick={onFavoriteChange}
+        onFavoritePress={onFavoriteChange}
         showLoader={false}
         onScrollEnds={() => { }}
         error={paginationError}

@@ -3,10 +3,10 @@ import { ArtWork } from "../../../../domain/entities/artWork";
 
 export type Props = {
   artWorks: ArtWork[]
-  onElementClick: (element: ArtWork) => Promise<void> | void;
+  onFavoritePress: (element: ArtWork) => Promise<void> | void;
   onScrollEnds: () => void;
   showLoader: boolean;
   error: ApplicationError;
   animateOnRemove?: boolean;
-  onCardPress: () => void;
+  onCardPress: (element: ArtWork) => void;
 }

@@ -9,9 +9,9 @@ import { routes, routesTitles } from './routes';
 import { ArtWorkDetails } from '../views/ArtWorkDetails';
 import { DrawerMenu } from './Drawer/DrawerMenu';
 import { DrawerContent } from './Drawer/DrawerContent';
-import { applicationScreensList } from './applicationScreensList';
+import { RootStackParamList } from './paramsList';
 
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator<RootStackParamList>();
 export const AppNavigator = ({ }) => {
   return (
     <NavigationContainer>

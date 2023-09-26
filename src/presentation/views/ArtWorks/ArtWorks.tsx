@@ -6,13 +6,15 @@ import { ArtWorksList } from "../../shared/components/ArtWorksList";
 import { BackgroundView } from "../../shared/components/BackgroundView";
 import { useFavorites } from "../../../domain/useCases/useFavorites";
 import { routes } from "../../navigation/routes";
+import { NativeStackNavigationProp, NativeStackScreenProps,  } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../navigation/paramsList";
 
 type props = {
-  navigation:NavigationProp<ParamListBase>
+  navigation: NavigationProp<ParamListBase>
 }
-export function ArtWorks({ navigation}:props) {
+export function ArtWorks({ navigation }: props) {
   const initialPagination = { limit: 30, page: 1 };
-  const n = useNavigation();
+  const { navigate } = useNavigation<NativeStackNavigationProp<RootStackParamList, 'ArtWorks'>>();
   const {
     artWorks,
     onScrollEnds,
@@ -29,11 +31,17 @@ export function ArtWorks({ navigation}:props) {
     <BackgroundView>
       <ArtWorksList
         artWorks={artWorks}
-        onElementClick={onFavoriteChange}
+        onFavoritePress={onFavoriteChange}
         showLoader={true}
         onScrollEnds={onScrollEnds}
         error={paginationError}
-        onCardPress={()=> n.navigate(routes.ArtWorkDetails as never)}
+        onCardPress={(artWork) => {
+          navigate(
+            // @ts-ignore
+            routes.ArtWorkDetails as never,
+            {artWork},
+          )
+        }}
       />
     </BackgroundView>
   )
