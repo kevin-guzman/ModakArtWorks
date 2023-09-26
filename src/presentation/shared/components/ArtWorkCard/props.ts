@@ -5,4 +5,5 @@ export type Props = {
   artWork: ArtWork;
   index?: number
   testID: string;
+  animateOnRemove?: boolean;
 }
