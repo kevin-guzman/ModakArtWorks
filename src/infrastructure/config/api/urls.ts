@@ -1,5 +1,5 @@
 import { Pagination } from '../../../domain/shared/types/pagination';
-import { ArtWorkID } from './types';
+import { ArtWorkID, Field } from './types';
 
 export const AIC_BASE_URL = 'https://api.artic.edu/api/v1/artworks';
 
@@ -13,6 +13,17 @@ export const aic = {
       paginationParams.append('limit', pagination.limit.toString());
 
       return `${AIC_BASE_URL}?${paginationParams}`;
+    },
+    withFileds: (prevURL: string, fields: Field[]) => {
+      let fieldsParam = prevURL.includes('?') ? '&fields=' : '?fields';
+      fields.forEach((field, index) => {
+        const appendComma = index !== fields.length - 1;
+        const comma = appendComma ? ',' : '';
+
+        fieldsParam += field + comma;
+      });
+
+      return `${prevURL}${fieldsParam}`;
     },
   },
 };

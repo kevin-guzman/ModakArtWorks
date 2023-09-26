@@ -2,6 +2,15 @@ import { ArtWork } from '../../../domain/entities/artWork';
 
 export type ArtWorkID = number | string;
 
+export enum Field {
+  ID = 'id',
+  Title = 'title',
+  Thumbnail = 'thumbnail',
+  Description = 'description',
+  Inscriptions = 'inscriptions',
+  ImageID = 'image_id',
+}
+
 export type ArtWorksResponse = {
   data: ArtWork[];
   pagination: {

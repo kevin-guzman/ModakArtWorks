@@ -5,7 +5,7 @@ import { ArtWork } from '../../domain/entities/artWork';
 import { ArtWorksRepository } from '../../domain/repositories/artWorksRepository';
 import { Pagination } from '../../domain/shared/types/pagination';
 import { HttpManager } from '../network/http';
-import { ArtWorksResponse } from '../config/api/types';
+import { ArtWorksResponse, Field } from '../config/api/types';
 
 @injectable()
 export class ArtWorksAdaptor implements ArtWorksRepository {
@@ -13,9 +13,21 @@ export class ArtWorksAdaptor implements ArtWorksRepository {
   private http!: HttpManager;
 
   getPaginated(pagination: Pagination): Promise<ArtWork[]> {
+    const parametrizedGetUrl = aic.artWorks.withFileds(
+      aic.artWorks.getPaginated(pagination),
+      [
+        Field.ID,
+        Field.Description,
+        Field.ImageID,
+        Field.Inscriptions,
+        Field.Thumbnail,
+        Field.Title,
+      ],
+    );
+
     return new Promise((resolve, reject) => {
       this.http
-        .get<ArtWorksResponse>(aic.artWorks.getPaginated(pagination))
+        .get<ArtWorksResponse>(parametrizedGetUrl)
         .then(({ data }) => {
           if (!data) {
             reject(new Error('Error getting data'));
