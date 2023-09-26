@@ -10,6 +10,7 @@ export const ArtWorksList = ({
   onScrollEnds,
   error,
   showLoader,
+  animateOnRemove
 }: Props) => {
 
   const renderFooter = () => {
@@ -33,6 +34,7 @@ export const ArtWorksList = ({
           addToFavoritesHandler={onElementClick}
           artWork={art}
           index={index}
+          animateOnRemove={animateOnRemove}
         />
       )}
       onEndReachedThreshold={0.5}

@@ -17,11 +17,6 @@ export function Favorites({ }) {
     reload();
   }, [useIsFocused()])
 
-  // useEffect(()=>{
-  //   console.log(" in favs view", favorites.length);
-    
-  // }, [favorites])
-
   return (
     <BackgroundView>
       <ArtWorksList
@@ -30,6 +25,7 @@ export function Favorites({ }) {
         showLoader={false}
         onScrollEnds={() => { }}
         error={paginationError}
+        animateOnRemove={true}
       />
     </BackgroundView >
   )
