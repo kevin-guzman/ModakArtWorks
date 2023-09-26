@@ -1,45 +1,17 @@
 
-import { DrawerContentComponentProps, createDrawerNavigator } from '@react-navigation/drawer';
-import { ArtWorks } from "../views/ArtWorks/ArtWorks";
+import { SafeAreaView, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { SafeAreaView, Text, TouchableOpacity } from 'react-native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+
+import { ArtWorks } from "../views/ArtWorks/ArtWorks";
 import { Favorites } from '../views/Favorites/Favorites';
-import { BackgroundView } from '../shared/components/BackgroundView';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
-
+import { routes, routesTitles } from './routes';
+import { ArtWorkDetails } from '../views/ArtWorkDetails';
+import { DrawerMenu } from './Drawer/DrawerMenu';
+import { DrawerContent } from './Drawer/DrawerContent';
+import { applicationScreensList } from './applicationScreensList';
 
 const Drawer = createDrawerNavigator();
-
-const DrawerContent = ({ descriptors, navigation, state }: DrawerContentComponentProps) => {
-  const { navigate, reset } = navigation
-
-  return (
-    <BackgroundView style={{ justifyContent: 'center', alignItems: 'center' }} >
-      <TouchableOpacity onPress={() => {
-        navigate("Favorites")
-      }}
-        style={{ marginBottom: 30 }}
-      >
-        <Text style={{ color: 'white' }} >Favorites</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => {
-        navigate("ArtWorks")
-      }} >
-        <Text style={{ color: 'white' }} >List</Text>
-      </TouchableOpacity>
-    </BackgroundView>
-  )
-}
-
-export const DrawerMenu = ({ navigation }: any) => {
-  return (
-    <TouchableOpacity style={{marginLeft:5}} onPress={() => navigation.toggleDrawer()}>
-      <Icon size={30} name='menu' color={"white"} testID='drawer-menu' />
-    </TouchableOpacity>
-  )
-}
-
 export const AppNavigator = ({ }) => {
   return (
     <NavigationContainer>
@@ -48,20 +20,24 @@ export const AppNavigator = ({ }) => {
         screenOptions={({ navigation }) => ({
           headerTitleAlign: 'center',
           headerStyle: { backgroundColor: 'black' },
-          headerTitle: ({ }) => null, //<Text style={{color:'white'}} >effrh</Text>,
+          headerTitle: ({ }) => <Text style={{ color: 'white', fontStyle: 'italic' }} >{routesTitles.ArtWorks}</Text>,
           headerTintColor: "white",
           headerLeft: ({ }) => <DrawerMenu navigation={navigation} />,
         })}
         drawerContent={DrawerContent}
-        initialRouteName="ArtWorks"
+        initialRouteName={routes.ArtWorksList}
       >
         <Drawer.Screen
-          name="ArtWorks"
+          name={routes.ArtWorksList}
           component={ArtWorks}
         />
         <Drawer.Screen
-          name='Favorites'
+          name={routes.Favorites}
           component={Favorites}
+        />
+        <Drawer.Screen
+          name={routes.ArtWorkDetails}
+          component={ArtWorkDetails}
         />
       </Drawer.Navigator>
     </NavigationContainer>

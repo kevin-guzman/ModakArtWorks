@@ -7,5 +7,6 @@ export type Props = {
   onScrollEnds: () => void;
   showLoader: boolean;
   error: ApplicationError;
-  animateOnRemove?:boolean;
+  animateOnRemove?: boolean;
+  onCardPress: () => void;
 }

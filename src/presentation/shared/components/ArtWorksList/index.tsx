@@ -10,7 +10,8 @@ export const ArtWorksList = ({
   onScrollEnds,
   error,
   showLoader,
-  animateOnRemove
+  animateOnRemove,
+  onCardPress
 }: Props) => {
 
   const renderFooter = () => {
@@ -35,6 +36,7 @@ export const ArtWorksList = ({
           artWork={art}
           index={index}
           animateOnRemove={animateOnRemove}
+          onCardPress={onCardPress}
         />
       )}
       onEndReachedThreshold={0.5}

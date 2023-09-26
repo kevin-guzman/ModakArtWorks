@@ -6,4 +6,5 @@ export type Props = {
   index?: number
   testID: string;
   animateOnRemove?: boolean;
+  onCardPress: (element: ArtWork) => void;
 }

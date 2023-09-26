@@ -25,7 +25,15 @@ const getImageDimensions = (thumbnail: ArtWork['thumbnail']) => {
 }
 
 
-export const ArtWorkCard = memo(({ artWork, addToFavoritesHandler, index, testID, animateOnRemove }: Props) => {
+export const ArtWorkCard = memo(
+  ({ 
+    artWork, 
+    addToFavoritesHandler, 
+    index, 
+    testID, 
+    animateOnRemove,
+    onCardPress
+  }: Props) => {
   const { image_id, title, thumbnail, description, inscriptions, is_favorite } = artWork;
   const isEmptyArtWork = !thumbnail || title === "Untitled" || !description || !inscriptions
   if (isEmptyArtWork) return null;
@@ -84,6 +92,7 @@ export const ArtWorkCard = memo(({ artWork, addToFavoritesHandler, index, testID
       }}
     >
       <TouchableOpacity
+        onPress={()=>onCardPress(artWork)}
         testID={testID}
       >
         <Animated.Image
