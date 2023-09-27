@@ -31,7 +31,7 @@ describe('usePaginateArtWorks', () => {
         title: "test",
         description: "Some description",
         id: 2,
-        image_id: "",
+        image_id: "id",
         inscriptions: "inscriptions",
         is_favorite: false,
         thumbnail: {
@@ -40,7 +40,35 @@ describe('usePaginateArtWorks', () => {
           lqip: "",
           width: 20
         }
-      }
+      },
+      {
+        title: "test",
+        description: "Some description",
+        id: 3,
+        image_id: "id",
+        inscriptions: "inscriptions",
+        is_favorite: false,
+        thumbnail: {
+          alt_text: "",
+          height: 20,
+          lqip: "",
+          width: 20
+        }
+      },
+      {
+        title: "test",
+        description: "Some description",
+        id: 1,
+        image_id: "id",
+        inscriptions: "inscriptions",
+        is_favorite: false,
+        thumbnail: {
+          alt_text: "",
+          height: 20,
+          lqip: "",
+          width: 20
+        }
+      },
     ]
     artWorksRepositoryStub.getPaginated.resolves(expectedArtWorks);
     testContainer.bind<ArtWorksRepository>("ArtWorksRepository").toConstantValue(artWorksRepositoryStub);
@@ -61,7 +89,7 @@ describe('usePaginateArtWorks', () => {
         title: "test",
         description: "Some description",
         id: 2,
-        image_id: "",
+        image_id: "id",
         inscriptions: "inscriptions",
         is_favorite: false,
         thumbnail: {
@@ -70,14 +98,42 @@ describe('usePaginateArtWorks', () => {
           lqip: "",
           width: 20
         }
-      }
+      },
+      {
+        title: "test",
+        description: "Some description",
+        id: 3,
+        image_id: "id",
+        inscriptions: "inscriptions",
+        is_favorite: false,
+        thumbnail: {
+          alt_text: "",
+          height: 20,
+          lqip: "",
+          width: 20
+        }
+      },
+      {
+        title: "test",
+        description: "Some description",
+        id: 4,
+        image_id: "id",
+        inscriptions: "inscriptions",
+        is_favorite: false,
+        thumbnail: {
+          alt_text: "",
+          height: 20,
+          lqip: "",
+          width: 20
+        }
+      },
     ]
     const inputArtWorks: ArtWork[] = [
       {
         title: "test",
         description: "Some description",
         id: 2,
-        image_id: "",
+        image_id: "id",
         inscriptions: "inscriptions",
         is_favorite: false,
         thumbnail: {
@@ -100,7 +156,35 @@ describe('usePaginateArtWorks', () => {
           lqip: "",
           width: 20
         }
-      }
+      },
+      {
+        title: "test",
+        description: "Some description",
+        id: 3,
+        image_id: "id",
+        inscriptions: "inscriptions",
+        is_favorite: false,
+        thumbnail: {
+          alt_text: "",
+          height: 20,
+          lqip: "",
+          width: 20
+        }
+      },
+      {
+        title: "test",
+        description: "Some description",
+        id: 4,
+        image_id: "id",
+        inscriptions: "inscriptions",
+        is_favorite: false,
+        thumbnail: {
+          alt_text: "",
+          height: 20,
+          lqip: "",
+          width: 20
+        }
+      },
     ]
     artWorksRepositoryStub.getPaginated.resolves(inputArtWorks);
     testContainer.bind<ArtWorksRepository>("ArtWorksRepository").toConstantValue(artWorksRepositoryStub);

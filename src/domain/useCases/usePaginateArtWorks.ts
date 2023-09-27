@@ -52,7 +52,7 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
     paginationQuery.refetch().then(({ data, isSuccess }) => {
       if (isSuccess) {
         data = filterArtWorksFromResponse(data);
-
+        
         setArtWorks(prevState => [
           ...new Set(prevState.concat(data as ArtWork[])),
         ]);
@@ -60,6 +60,10 @@ export const usePaginateArtWorks = (initialPagination: Pagination) => {
           ...prevState,
           page: prevState.page + 1,
         }));
+        const notEnoughData = data.length<2
+        if(notEnoughData){
+          setReloadPagination(!reloadPagination)
+        }
         setNoError();
 
         return;
